@@ -8,3 +8,8 @@ def test_status():
     response = app.test_client().get('/status')
     assert response.status_code == 200
     assert response.get_json() == {'status':'ok'}
+
+def test_hello():
+    response = app.test_client().get('/hello/Петро')
+    assert response.status_code == 200
+    assert response.data.decode('utf-8') == 'Привіт, Петро!'
