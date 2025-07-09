@@ -12,3 +12,4 @@ def test_home_page():
     assert b"/status" in response.data
     assert b"/about" in response.data
     assert b"/hello" in response.data
+    assert b"/users" in response.data
