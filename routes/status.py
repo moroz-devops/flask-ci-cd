@@ -1,4 +1,8 @@
-from flask import jsonify
+from flask import Blueprint, render_template
+
+status_bp = Blueprint('status', __name__)
+
+@status_bp.route('/status')
 
 def status_route():
-    return jsonify({'status': 'ok'})
+    return render_template("status.html")

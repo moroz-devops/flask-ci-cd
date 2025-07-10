@@ -1,20 +1,16 @@
+from flask import Blueprint, render_template
 import sqlite3
+
+users_bp = Blueprint('users', __name__)
+
+@users_bp.route('/users')
 
 def users_route():
     conn = sqlite3.connect('site.db')
     cursor = conn.cursor()
     cursor.execute('SELECT name FROM users')
-    users = cursor.fetchall()
+    users_list = cursor.fetchall()
     conn.close()
-
-    users_html = "<ul>"
-    for user in users:
-        users_html += f"<li>{user[0]}</li>"
-    users_html += "</ul>"
-
-    return f'''
-        <h1>Registered Users</h1>
-        {users_html}
-        <a href="/">Back to main page</a>
-    '''
+    
+    return render_template('users.html', users=users_list)
 

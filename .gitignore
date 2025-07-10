@@ -1,10 +1,10 @@
-1.txt
-tests/__test_app_old.py
+sandbox/
 site.db
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
 *$py.class
+*.pyc
 
 # C extensions
 *.so
