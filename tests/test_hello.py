@@ -27,4 +27,4 @@ def test_hello_post_existing_user():
     # Повторний запит — має показати, що ім'я вже є
     response = client.post("/hello", data={"name": "DuplicateUser"})
     assert response.status_code == 200
-    assert b"already exists" in response.data
+    assert b"is already registered" in response.data
