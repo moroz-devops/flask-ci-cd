@@ -1,4 +1,8 @@
-{% if name %}
+{% if error %}
+  <p style="color:red">{{ error }}</p>
+  <a href="/hello">Try again</a><br>
+
+{% elif name %}
   <h1>Welcome, {{name}}! You are registered.</h1>
   <a href="/">Back to main page</a>
 
@@ -6,12 +10,14 @@
   <h1>Name "{{ name_exists }} is already registered."</h1>
   <a href="/hello">Try another name</a><br>
   <a href="/">Back to main page</a>
+{% endif %}
 
-{% else %}
+{% if not name and not name_exists and not error %}
   <h1>Register</h1>
   <form method="POST">
       <input type="text" name="name" required>
       <input type="submit" value="Register">
   </form>
-  <a href="/">Back to main page</a>
+  <a href="/hello">Try again</a><br>
+  <a href="/">Back to main page</a><br>
 {% endif %}
