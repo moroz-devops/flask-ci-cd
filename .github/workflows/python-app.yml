@@ -25,6 +25,9 @@ jobs:
         pip install --upgrade pip
         pip install -r requirements.txt
         pip install flask pytest
+        
+    - name: Export DATABASE_URL from secrets
+      run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
     - name: Run tests with pytest
       run: |
