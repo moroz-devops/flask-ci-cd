@@ -1,4 +1,5 @@
 from app import app
+from flask_sqlalchemy import SQLAlchemy
 
 def test_users_page():
     client = app.test_client()

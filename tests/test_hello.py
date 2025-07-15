@@ -3,6 +3,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app import app
+from flask_sqlalchemy import SQLAlchemy
 
 def test_hello_get():
     client = app.test_client()
