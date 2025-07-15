@@ -1,12 +1,13 @@
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+import os
 
-def init_db():
-    conn = sqlite3.connect('site.db')
-    cursor = conn.cursor()
-    cursor.execute(''' CREATE TABLE IF NOT EXISTS users 
-    ( 
-    id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL
-    )
-    ''')
-    conn.commit()
-    conn.close()
+load_dotenv()  # Завантажує .env файл
+
+db = SQLAlchemy()
+
+def init_db(app):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL').replace("postgres://", "postgresql://")
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(app)
+

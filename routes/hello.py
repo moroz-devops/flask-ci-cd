@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template
-import sqlite3
+from models import db, User
 
 hello_bp = Blueprint('hello', __name__)
 
@@ -15,19 +15,15 @@ def hello_route():
         if len(name) < 3 or len(name) > 20:
             return render_template('hello.html', error="Name must be 3–20 characters long.")
         #repetition check
-        conn = sqlite3.connect('site.db')
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM users WHERE name = ?', (name,))
-        existing_user = cursor.fetchone()
+        existing_user = User.query.filter_by(name=name).first()
         
         if existing_user:
-            conn.close()
             return render_template('hello.html', name_exists=name)
             
         #registration
-        cursor.execute('INSERT INTO users (name) VALUES (?)', (name,))
-        conn.commit()
-        conn.close()
+        new_user = User(name=name)
+        db.session.add(new_user)
+        db.session.commit()
         
         return render_template('hello.html', name=name)
 
