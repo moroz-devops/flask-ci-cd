@@ -6,26 +6,45 @@ from routes.hello import hello_bp
 from routes.status import status_bp
 from routes.users import users_bp
 
-app = Flask(__name__)
-init_db(app) #initialize database
-print("📡 DATABASE URI:", app.config['SQLALCHEMY_DATABASE_URI'])
+from config import DevelopmentConfig, ProductionConfig
+import os
 
-#Blueprint register
-app.register_blueprint(hello_bp)
-app.register_blueprint(status_bp)
-app.register_blueprint(users_bp)
+def create_app():
+    app = Flask(__name__)
+    #Select environment
+    env = os.getenv('FLASK_ENV', 'development')
+    
+    if env == 'production':
+        app.config.from_object(ProductionConfig)
+    elif env == 'testing':
+        app.config.from_object('config.TestingConfig')
+    else:
+        app.config.from_object(DevelopmentConfig)
+    
+    #initialize database
+    init_db(app)
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+    #Blueprint routes register
+    app.register_blueprint(hello_bp)
+    app.register_blueprint(status_bp)
+    app.register_blueprint(users_bp)
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+    #html pages
+    @app.route('/')
+    def home():
+        return render_template('home.html')
 
-#Create new db tables
-with app.app_context():
-    db.create_all()
+    @app.route('/about')
+    def about():
+        return render_template('about.html')
 
+    #Create new db tables
+    with app.app_context():
+        db.create_all()
+        
+    return app
+
+#Start app
 if __name__ == '__main__':
+    app = create_app()
     app.run(host='0.0.0.0', port=5000)
