@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 from database import init_db, db
 from models import User
+from dotenv import load_dotenv
 
 from routes.hello import hello_bp
 from routes.status import status_bp
