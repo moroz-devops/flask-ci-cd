@@ -10,6 +10,7 @@ from config import DevelopmentConfig, ProductionConfig
 import os
 
 def create_app():
+    load_dotenv()
     app = Flask(__name__)
     #Select environment
     env = os.getenv('FLASK_ENV', 'development')
